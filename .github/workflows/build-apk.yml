@@ -43,17 +43,14 @@ jobs:
           echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
           .venv/bin/cython --version
           .venv/bin/buildozer --version
-          
-      - name: Build APK
-        run: |
-          source .venv/bin/activate
-          buildozer -v android debug
 
       - name: Build APK
+        env:
+          BUILDOZER_WARN_ON_ROOT: "0"
         run: |
           source .venv/bin/activate
-          buildozer -v android debug
-          
+          yes | buildozer -v android debug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
