@@ -35,13 +35,17 @@ jobs:
             libtinfo6 cmake libffi-dev libssl-dev \
             libltdl-dev
 
+    
       - name: Set up Python environment
         run: |
           python3 -m venv .venv
           .venv/bin/python -m pip install --upgrade pip setuptools wheel
-          .venv/bin/python -m pip install "Cython==0.29.36"
-          .venv/bin/python -m pip install buildozer
-          .venv/bin/python -c "import Cython; print('Cython version:', Cython.__version__)"
+          .venv/bin/python -m pip install "Cython==0.29.36" buildozer
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+          export PATH="$GITHUB_WORKSPACE/.venv/bin:$PATH"
+          command -v cython
+          cython --version
+          .venv/bin/buildozer --version
 
       - name: Build APK
         run: .venv/bin/buildozer -v android debug
