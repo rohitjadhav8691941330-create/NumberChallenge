@@ -47,8 +47,11 @@ jobs:
           cython --version
           .venv/bin/buildozer --version
 
-      - name: Build APK
-        run: .venv/bin/buildozer -v android debug
+         - name: Build APK
+        env:
+          P4A_NO_INSTALL: "1"
+        run: |
+          .venv/bin/buildozer -v android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
